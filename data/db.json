@@ -1,0 +1,167 @@
+{
+  "users": [
+    {
+      "id": "ce364475-37bb-4f98-b0d7-bc8da83c0e71",
+      "theme": "dark",
+      "name": "aniket",
+      "email": "parasharaniket30@gmail.com",
+      "monthlyGoal": 2500,
+      "passwordHash": "$2b$12$d2ZJakwyULCyJn7e1fjbAOwA5PTU1JxzRnAL/7HaiCU05Ks1b8TJu",
+      "resetTokenHash": null,
+      "resetTokenExpiresAt": null,
+      "emailNotifications": true
+    },
+    {
+      "id": "8ceaaad7-bda9-4c22-942e-18f214294fdd",
+      "theme": "light",
+      "name": "Verify User",
+      "email": "verify_08e92f04@example.com",
+      "monthlyGoal": 5000,
+      "passwordHash": "f0c58110a3b7cdb0a4adc932e27f5ef0:92a13efc6e2f72bbb502495d0ea3aafc971586eca74623a3f45f333b718a6cd45a7a980017ad7f0464d2b530c499f5e0f64b60cb4f70d439064ce3705c09b897"
+    },
+    {
+      "id": "ecd4bc5d-048b-4a02-b876-3f349f72ea74",
+      "theme": "light",
+      "name": "Verify User",
+      "email": "verify_bf2a94ef@example.com",
+      "monthlyGoal": 5000,
+      "passwordHash": "7314e661628217f639a09dc416e40ff6:c41c9862409f173ef5374b0a02dabf63d9172945f53ca376c2e9864aa67393259ba830f9985b3ce4c6b14d6eb025f43429aa6b3626207c63391977026777db85"
+    },
+    {
+      "id": "e4d7c859-7f4c-4ecd-8074-ef5c14d73729",
+      "theme": "light",
+      "emailNotifications": true,
+      "weeklyDigest": false,
+      "compactMode": false,
+      "name": "Verify User",
+      "email": "verify_c1e0bb9e@example.com",
+      "monthlyGoal": 5000,
+      "passwordHash": "$2b$12$jKbYQXMn8M.BGjmcsnnv2ukHZWKvpYYWxE2mj4PxjKA7DZdapWEW6"
+    },
+    {
+      "id": "b027568c-2050-4a6f-b982-3554fd57d3f1",
+      "theme": "light",
+      "emailNotifications": true,
+      "weeklyDigest": true,
+      "compactMode": true,
+      "name": "Verify User",
+      "email": "verify_efae71a3@example.com",
+      "monthlyGoal": 5000,
+      "passwordHash": "$2b$12$onlVwC6XttbTjSTqXl1nFOqzUJUMvErHI8Cbu/tU6YwMZgk1tP6N."
+    },
+    {
+      "id": "06f16f94-cc83-467b-9e05-1fec10f53fc0",
+      "theme": "light",
+      "emailNotifications": true,
+      "weeklyDigest": true,
+      "compactMode": false,
+      "name": "Aniket Parashar",
+      "email": "parasharaniket9729@gmail.com",
+      "monthlyGoal": 2500,
+      "passwordHash": "$2b$12$FvnRQOe3WV97G7YcCBRcKec8UWDg/jQcccM26x/6K2xvphyxFlYky",
+      "resetTokenHash": "3d42e3f97f1c861feabdf13675d0995234d94539654aefe4549a577192f7b284",
+      "resetTokenExpiresAt": 1775715890520
+    },
+    {
+      "id": "eb45fa6b-b43f-41be-96f7-0ee5bf355355",
+      "theme": "light",
+      "emailNotifications": true,
+      "weeklyDigest": false,
+      "compactMode": false,
+      "resetTokenHash": "8c5d1de575b19e69aa6a807e4626ccf63cef67b8b0069c466cda2ad17780d777",
+      "resetTokenExpiresAt": 1775710163643,
+      "name": "Password User",
+      "email": "pw_179b3da2@example.com",
+      "monthlyGoal": 3000,
+      "passwordHash": "$2b$12$3WjUQceIhTcYYlcAWVPLIueTAiusHQLlWfS7/8EO9CsSLblzqUugS"
+    },
+    {
+      "id": "776c2bf3-af14-4c22-a613-759944ac5274",
+      "theme": "light",
+      "emailNotifications": true,
+      "weeklyDigest": false,
+      "compactMode": false,
+      "resetTokenHash": "3929059308afffd7f49925b05d1ecca4caf17558653d20acc8f5706dfd7d8d46",
+      "resetTokenExpiresAt": 1775710248923,
+      "name": "Reset User",
+      "email": "pw_98cb719f@example.com",
+      "monthlyGoal": 2000,
+      "passwordHash": "$2b$12$qOCGYe.KhqTy/0jBTw2boerLaTexsjuPHA7ud1hE62tOI/SkDLfAC"
+    },
+    {
+      "id": "dbbdc9ae-8b56-40a2-af4e-089e07334f5f",
+      "theme": "light",
+      "emailNotifications": true,
+      "weeklyDigest": false,
+      "compactMode": false,
+      "resetTokenHash": null,
+      "resetTokenExpiresAt": null,
+      "name": "Reset User",
+      "email": "pw_ac19f47c@example.com",
+      "monthlyGoal": 2000,
+      "passwordHash": "$2b$12$NbATU.T8gBXoKvywVGx2qOOIOycX5sJiAvmc4Xy1ZCFp2g8ZYnyrm"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "701698a7-0c70-4bb7-adac-0e2093723ce9",
+      "userId": "06f16f94-cc83-467b-9e05-1fec10f53fc0",
+      "title": "salary ",
+      "amount": 2456778,
+      "type": "income",
+      "category": "Salary",
+      "date": "2026-04-08",
+      "notes": "first"
+    },
+    {
+      "id": "d86ddc0e-b54c-45bd-9569-dccf0f3d5bdc",
+      "userId": "06f16f94-cc83-467b-9e05-1fec10f53fc0",
+      "title": "items ",
+      "amount": 5000,
+      "type": "expense",
+      "category": "Utilities",
+      "date": "2026-04-08",
+      "notes": ""
+    },
+    {
+      "id": "bbee8f44-c044-46b9-bda6-3aa70dbb7347",
+      "userId": "06f16f94-cc83-467b-9e05-1fec10f53fc0",
+      "title": "ert",
+      "amount": 236,
+      "type": "expense",
+      "category": "Entertainment",
+      "date": "2026-04-08",
+      "notes": ""
+    },
+    {
+      "id": "b938c5f1-221f-4048-9af5-34aa959df40f",
+      "userId": "ce364475-37bb-4f98-b0d7-bc8da83c0e71",
+      "title": "payment recieved",
+      "amount": 25000,
+      "type": "income",
+      "category": "Salary",
+      "date": "2026-04-09",
+      "notes": ""
+    },
+    {
+      "id": "3ba4aeb3-38e1-44a0-836d-b5b843e2b7e7",
+      "userId": "ce364475-37bb-4f98-b0d7-bc8da83c0e71",
+      "title": "cloth",
+      "amount": 5000,
+      "type": "expense",
+      "category": "Shopping",
+      "date": "2026-04-09",
+      "notes": ""
+    },
+    {
+      "id": "fba05f93-decf-4cbc-8a55-21411f2170a3",
+      "userId": "06f16f94-cc83-467b-9e05-1fec10f53fc0",
+      "title": "rent",
+      "amount": 50000,
+      "type": "expense",
+      "category": "Rent",
+      "date": "2026-04-09",
+      "notes": ""
+    }
+  ]
+}
