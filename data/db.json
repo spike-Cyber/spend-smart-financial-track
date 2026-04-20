@@ -51,16 +51,18 @@
     },
     {
       "id": "06f16f94-cc83-467b-9e05-1fec10f53fc0",
-      "theme": "light",
+      "theme": "light-green",
       "emailNotifications": true,
       "weeklyDigest": true,
-      "compactMode": false,
+      "compactMode": true,
       "name": "Aniket Parashar",
       "email": "parasharaniket9729@gmail.com",
       "monthlyGoal": 2500,
       "passwordHash": "$2b$12$FvnRQOe3WV97G7YcCBRcKec8UWDg/jQcccM26x/6K2xvphyxFlYky",
-      "resetTokenHash": "3d42e3f97f1c861feabdf13675d0995234d94539654aefe4549a577192f7b284",
-      "resetTokenExpiresAt": 1775715890520
+      "resetTokenHash": "e6085242217ea5dcbd76ca810c2f7fb1a4b5652d00f64d76bee51499d2f1ab80",
+      "resetTokenExpiresAt": 1776179501946,
+      "targetAlerts": true,
+      "overspendingAlerts": true
     },
     {
       "id": "eb45fa6b-b43f-41be-96f7-0ee5bf355355",
@@ -100,6 +102,34 @@
       "email": "pw_ac19f47c@example.com",
       "monthlyGoal": 2000,
       "passwordHash": "$2b$12$NbATU.T8gBXoKvywVGx2qOOIOycX5sJiAvmc4Xy1ZCFp2g8ZYnyrm"
+    },
+    {
+      "id": "e5499f6f-ea32-4727-b41b-c351e412aac4",
+      "theme": "light",
+      "emailNotifications": true,
+      "weeklyDigest": false,
+      "compactMode": false,
+      "resetTokenHash": null,
+      "resetTokenExpiresAt": null,
+      "name": "Alert User",
+      "email": "alert_b31e8487@example.com",
+      "monthlyGoal": 5000,
+      "passwordHash": "$2b$12$peC3W18JAecSvpU3dFAObuC9K8Cjeo6zTtIw6aCW8TPsmFedNY3bK"
+    },
+    {
+      "id": "108b2f19-2f86-4bc3-aecb-f7edc635320d",
+      "theme": "light",
+      "emailNotifications": true,
+      "targetAlerts": true,
+      "overspendingAlerts": true,
+      "weeklyDigest": false,
+      "compactMode": false,
+      "resetTokenHash": null,
+      "resetTokenExpiresAt": null,
+      "name": "Alert User",
+      "email": "alert_e1eb5375@example.com",
+      "monthlyGoal": 5000,
+      "passwordHash": "$2b$12$MHT/TloJ1yc7cPVtgWCKA.saAkgUTwQpWsGPxqYoSo3gWnvG8UNDO"
     }
   ],
   "transactions": [
@@ -112,26 +142,6 @@
       "category": "Salary",
       "date": "2026-04-08",
       "notes": "first"
-    },
-    {
-      "id": "d86ddc0e-b54c-45bd-9569-dccf0f3d5bdc",
-      "userId": "06f16f94-cc83-467b-9e05-1fec10f53fc0",
-      "title": "items ",
-      "amount": 5000,
-      "type": "expense",
-      "category": "Utilities",
-      "date": "2026-04-08",
-      "notes": ""
-    },
-    {
-      "id": "bbee8f44-c044-46b9-bda6-3aa70dbb7347",
-      "userId": "06f16f94-cc83-467b-9e05-1fec10f53fc0",
-      "title": "ert",
-      "amount": 236,
-      "type": "expense",
-      "category": "Entertainment",
-      "date": "2026-04-08",
-      "notes": ""
     },
     {
       "id": "b938c5f1-221f-4048-9af5-34aa959df40f",
@@ -154,13 +164,63 @@
       "notes": ""
     },
     {
-      "id": "fba05f93-decf-4cbc-8a55-21411f2170a3",
-      "userId": "06f16f94-cc83-467b-9e05-1fec10f53fc0",
-      "title": "rent",
-      "amount": 50000,
+      "id": "515cef96-c7c7-4e44-9d0d-2470f596b3fe",
+      "userId": "e5499f6f-ea32-4727-b41b-c351e412aac4",
+      "title": "Rent",
+      "amount": 8000,
       "type": "expense",
       "category": "Rent",
       "date": "2026-04-09",
+      "notes": "monthly rent"
+    },
+    {
+      "id": "249baf70-68cc-4b13-af4b-d04c79c092da",
+      "userId": "108b2f19-2f86-4bc3-aecb-f7edc635320d",
+      "title": "Rent",
+      "amount": 8000,
+      "type": "expense",
+      "category": "Rent",
+      "date": "2026-04-09",
+      "notes": "monthly rent"
+    },
+    {
+      "id": "23fe6100-e489-4588-a4c7-c96c9665520e",
+      "userId": "06f16f94-cc83-467b-9e05-1fec10f53fc0",
+      "title": "fsd",
+      "amount": 5354,
+      "type": "expense",
+      "category": "Transport",
+      "date": "2026-04-10",
+      "notes": ""
+    },
+    {
+      "id": "2fa53699-07d9-4c60-afad-9cd79ddf42c9",
+      "userId": "06f16f94-cc83-467b-9e05-1fec10f53fc0",
+      "title": "raise",
+      "amount": 55864,
+      "type": "expense",
+      "category": "Investments",
+      "date": "2026-04-13",
+      "notes": ""
+    },
+    {
+      "id": "c418a458-036c-402b-be27-e14cc18de59b",
+      "userId": "06f16f94-cc83-467b-9e05-1fec10f53fc0",
+      "title": "ey",
+      "amount": 37832,
+      "type": "expense",
+      "category": "Salary",
+      "date": "2026-04-14",
+      "notes": ""
+    },
+    {
+      "id": "fc370c7a-3e6d-4e9f-999f-069d2ee144ef",
+      "userId": "06f16f94-cc83-467b-9e05-1fec10f53fc0",
+      "title": "56",
+      "amount": 674879,
+      "type": "income",
+      "category": "Rent",
+      "date": "2026-04-14",
       "notes": ""
     }
   ]

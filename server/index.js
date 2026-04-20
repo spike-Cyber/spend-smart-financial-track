@@ -3,7 +3,7 @@ const path = require("path");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const { createStore, sanitizeUser } = require("./lib/store");
-const { createMailer, sendDataChangeNotification } = require("./lib/mailer");
+const { createMailer, sendDataChangeNotification, sendSummaryAlertNotification } = require("./lib/mailer");
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, "..", "public");
@@ -11,7 +11,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "spend-smart-dev-secret-change-me";
 const COOKIE_NAME = "auth_token";
 const ALLOWED_THEMES = new Set(["light", "dark", "sky-blue", "light-green", "grey-shades"]);
 
-async function bootstrap() {
+async function createApp() {
   const { store, driver } = await createStore();
   const mailer = createMailer();
   const app = express();
@@ -186,7 +186,11 @@ async function bootstrap() {
     if (!user) return;
 
     const emailNotifications = req.body.emailNotifications !== false;
-    const updated = await store.updateUser(user.id, { emailNotifications });
+    const updated = await store.updateUser(user.id, {
+      emailNotifications,
+      targetAlerts: req.body.targetAlerts !== false,
+      overspendingAlerts: req.body.overspendingAlerts !== false
+    });
     res.json({ user: sanitizeUser(updated) });
   });
 
@@ -229,6 +233,8 @@ async function bootstrap() {
     });
 
     await sendDataChangeNotification(mailer, user, "created", transaction);
+    const summary = buildSummary(await store.listTransactions(user.id), user.monthlyGoal);
+    await sendSummaryAlertNotification(mailer, user, summary);
 
     res.status(201).json({ transaction });
   });
@@ -249,6 +255,8 @@ async function bootstrap() {
     }
 
     await sendDataChangeNotification(mailer, user, "updated", transaction);
+    const summary = buildSummary(await store.listTransactions(user.id), user.monthlyGoal);
+    await sendSummaryAlertNotification(mailer, user, summary);
 
     res.json({ transaction });
   });
@@ -264,6 +272,8 @@ async function bootstrap() {
     }
 
     await sendDataChangeNotification(mailer, user, "deleted", transaction);
+    const summary = buildSummary(await store.listTransactions(user.id), user.monthlyGoal);
+    await sendSummaryAlertNotification(mailer, user, summary);
 
     res.json({ transaction });
   });
@@ -305,11 +315,17 @@ async function bootstrap() {
     res.sendFile(path.join(PUBLIC_DIR, "index.html"));
   });
 
+  return { app, driver, mailer };
+}
+
+async function bootstrap() {
+  const { app, driver, mailer } = await createApp();
   app.listen(PORT, () => {
     console.log(`Spend Smart running at http://localhost:${PORT}`);
     console.log(`Storage driver: ${driver}`);
     console.log(`Mail notifications: ${mailer.enabled ? "smtp-enabled" : "log-only fallback"}`);
   });
+  return app;
 }
 
 function getCookies(req) {
@@ -433,6 +449,7 @@ function buildSummary(items, monthlyGoal) {
   const income = items.filter((item) => item.type === "income").reduce((sum, item) => sum + item.amount, 0);
   const expenses = items.filter((item) => item.type === "expense").reduce((sum, item) => sum + item.amount, 0);
   const balance = income - expenses;
+  const goalPending = Math.max(Number(monthlyGoal || 0) - balance, 0);
 
   const categoryTotals = items
     .filter((item) => item.type === "expense")
@@ -461,6 +478,7 @@ function buildSummary(items, monthlyGoal) {
     totals: { income, expenses, balance },
     monthlyGoal,
     goalProgress: monthlyGoal > 0 ? Math.max(Math.min((balance / monthlyGoal) * 100, 100), 0) : 0,
+    goalPending,
     categoryTotals,
     incomeByCategory,
     monthly: Object.values(monthly).sort((a, b) => a.month.localeCompare(b.month)).slice(-6),
@@ -486,7 +504,11 @@ function buildInsights(balance, expenses, categoryTotals) {
   return insights;
 }
 
-bootstrap().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+if (require.main === module) {
+  bootstrap().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}
+
+module.exports = { createApp, bootstrap };

@@ -94,6 +94,78 @@ async function sendDataChangeNotification(mailer, user, action, transaction) {
   });
 }
 
+async function sendSummaryAlertNotification(mailer, user, summary) {
+  if (!user?.email || user.emailNotifications === false) {
+    return;
+  }
+
+  const alerts = [];
+  if (user.targetAlerts !== false && summary.goalPending > 0) {
+    alerts.push({
+      subject: "Spend Smart: target pending alert",
+      text: [
+        `Hello ${user.name},`,
+        ``,
+        `Your monthly goal is still pending by ${formatCurrency(summary.goalPending)}.`,
+        `Current goal progress: ${summary.goalProgress}%`,
+        ``,
+        `Keep tracking your income and savings to stay on target.`
+      ].join("\n"),
+      html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#3f2a20">
+        <h2>Target Pending Alert</h2>
+        <p>Hello ${escapeHtml(user.name)},</p>
+        <p>Your monthly goal is still pending by <strong>${escapeHtml(formatCurrency(summary.goalPending))}</strong>.</p>
+        <p>Current goal progress: <strong>${escapeHtml(String(summary.goalProgress))}%</strong></p>
+        <p>Keep tracking your income and savings to stay on target.</p>
+      </div>`
+    });
+  }
+
+  if (user.overspendingAlerts !== false && summary.totals.expenses > summary.totals.income) {
+    alerts.push({
+      subject: "Spend Smart: overspending alert",
+      text: [
+        `Hello ${user.name},`,
+        ``,
+        `Your expenses have crossed your income.`,
+        `Income: ${formatCurrency(summary.totals.income)}`,
+        `Expenses: ${formatCurrency(summary.totals.expenses)}`,
+        `Balance: ${formatCurrency(summary.totals.balance)}`,
+        ``,
+        `Review your recent transactions to rebalance your spending.`
+      ].join("\n"),
+      html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#3f2a20">
+        <h2>Overspending Alert</h2>
+        <p>Hello ${escapeHtml(user.name)},</p>
+        <p>Your expenses have crossed your income.</p>
+        <ul>
+          <li><strong>Income:</strong> ${escapeHtml(formatCurrency(summary.totals.income))}</li>
+          <li><strong>Expenses:</strong> ${escapeHtml(formatCurrency(summary.totals.expenses))}</li>
+          <li><strong>Balance:</strong> ${escapeHtml(formatCurrency(summary.totals.balance))}</li>
+        </ul>
+        <p>Review your recent transactions to rebalance your spending.</p>
+      </div>`
+    });
+  }
+
+  for (const alert of alerts) {
+    await mailer.sendMail({
+      to: user.email,
+      subject: alert.subject,
+      text: alert.text,
+      html: alert.html
+    });
+  }
+}
+
+function formatCurrency(value) {
+  return Number(value || 0).toLocaleString("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0
+  });
+}
+
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -103,4 +175,4 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
-module.exports = { createMailer, sendDataChangeNotification };
+module.exports = { createMailer, sendDataChangeNotification, sendSummaryAlertNotification };

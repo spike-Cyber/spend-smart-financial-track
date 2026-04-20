@@ -10,7 +10,8 @@ esbuild
     format: "iife",
     platform: "browser",
     target: ["es2020"],
-    sourcemap: false
+    sourcemap: false,
+    minify: true
   })
   .catch((error) => {
     console.error(error);

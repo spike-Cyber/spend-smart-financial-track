@@ -4,13 +4,17 @@ import { SavingsIllustration, SecurityIllustration } from "./visuals";
 import { api, downloadJson, formatCurrency } from "./utils";
 export function SettingsPage({ user, theme, compactMode, onThemeChange, onWorkspaceChange, onUserChange, onChangePassword }) {
   const [notifications, setNotifications] = useState(() => user?.emailNotifications !== false);
+  const [targetAlerts, setTargetAlerts] = useState(() => user?.targetAlerts !== false);
+  const [overspendingAlerts, setOverspendingAlerts] = useState(() => user?.overspendingAlerts !== false);
   const [weeklyDigest, setWeeklyDigest] = useState(() => user?.weeklyDigest === true);
   const [settingsFeedback, setSettingsFeedback] = useState("");
   const [passwordFeedback, setPasswordFeedback] = useState("");
 
   useEffect(() => {
     setNotifications(user?.emailNotifications !== false);
-  }, [user?.emailNotifications]);
+    setTargetAlerts(user?.targetAlerts !== false);
+    setOverspendingAlerts(user?.overspendingAlerts !== false);
+  }, [user?.emailNotifications, user?.targetAlerts, user?.overspendingAlerts]);
 
   useEffect(() => {
     setWeeklyDigest(user?.weeklyDigest === true);
@@ -23,14 +27,41 @@ export function SettingsPage({ user, theme, compactMode, onThemeChange, onWorksp
       const response = await api("/api/preferences/notifications", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ emailNotifications: next })
+        body: JSON.stringify({
+          emailNotifications: next,
+          targetAlerts,
+          overspendingAlerts
+        })
       });
       setNotifications(response.user.emailNotifications !== false);
+      setTargetAlerts(response.user.targetAlerts !== false);
+      setOverspendingAlerts(response.user.overspendingAlerts !== false);
       onUserChange(response.user);
       setSettingsFeedback(`Email notifications ${response.user.emailNotifications ? "enabled" : "disabled"}.`);
     } catch {
       setNotifications(!next);
       setSettingsFeedback("We could not update email notifications right now.");
+    }
+  }
+
+  async function updateAlertPreference(patch) {
+    try {
+      const response = await api("/api/preferences/notifications", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          emailNotifications: notifications,
+          targetAlerts: patch.targetAlerts !== undefined ? patch.targetAlerts : targetAlerts,
+          overspendingAlerts: patch.overspendingAlerts !== undefined ? patch.overspendingAlerts : overspendingAlerts
+        })
+      });
+      setNotifications(response.user.emailNotifications !== false);
+      setTargetAlerts(response.user.targetAlerts !== false);
+      setOverspendingAlerts(response.user.overspendingAlerts !== false);
+      onUserChange(response.user);
+      return response.user;
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -127,6 +158,50 @@ export function SettingsPage({ user, theme, compactMode, onThemeChange, onWorksp
             </div>
             <button className={`toggle-chip ${weeklyDigest ? "active" : ""}`} onClick={toggleWeeklyDigest}>
               {weeklyDigest ? "On" : "Off"}
+            </button>
+          </div>
+          <div className="setting-toggle-row">
+            <div>
+              <strong>Target pending alerts</strong>
+              <p className="helper">Email me when my monthly goal is still pending after updates.</p>
+            </div>
+            <button
+              className={`toggle-chip ${targetAlerts ? "active" : ""}`}
+              onClick={async () => {
+                const next = !targetAlerts;
+                setTargetAlerts(next);
+                try {
+                  await updateAlertPreference({ targetAlerts: next });
+                  setSettingsFeedback(`Target pending alerts ${next ? "enabled" : "disabled"}.`);
+                } catch {
+                  setTargetAlerts(!next);
+                  setSettingsFeedback("We could not update target alerts right now.");
+                }
+              }}
+            >
+              {targetAlerts ? "On" : "Off"}
+            </button>
+          </div>
+          <div className="setting-toggle-row">
+            <div>
+              <strong>Overspending alerts</strong>
+              <p className="helper">Email me when expenses cross income after an update.</p>
+            </div>
+            <button
+              className={`toggle-chip ${overspendingAlerts ? "active" : ""}`}
+              onClick={async () => {
+                const next = !overspendingAlerts;
+                setOverspendingAlerts(next);
+                try {
+                  await updateAlertPreference({ overspendingAlerts: next });
+                  setSettingsFeedback(`Overspending alerts ${next ? "enabled" : "disabled"}.`);
+                } catch {
+                  setOverspendingAlerts(!next);
+                  setSettingsFeedback("We could not update overspending alerts right now.");
+                }
+              }}
+            >
+              {overspendingAlerts ? "On" : "Off"}
             </button>
           </div>
         </article>

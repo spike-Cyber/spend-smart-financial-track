@@ -8,45 +8,49 @@ import { useSpendSmartApp } from "./hooks/useSpendSmartApp";
 
 function App() {
   const app = useSpendSmartApp();
+  const isLoggedOut = !app.user;
+  const goToLanding = () => app.setPage(publicPages.landing);
+  const goToLogin = () => app.setPage(publicPages.login);
+  const clearResetQuery = () => window.history.replaceState({}, "", window.location.pathname);
 
-  if (!app.user && app.page === publicPages.splash) {
-    return <SplashPage onContinue={() => app.setPage(publicPages.landing)} onSkip={() => app.setPage(publicPages.login)} />;
+  if (isLoggedOut && app.page === publicPages.splash) {
+    return <SplashPage onContinue={goToLanding} onSkip={goToLogin} />;
   }
 
-  if (!app.user && app.page === publicPages.landing) {
-    return <LandingPage heroTotals={app.heroTotals} onLogin={() => app.setPage(publicPages.login)} onSignup={() => app.setPage(publicPages.signup)} />;
+  if (isLoggedOut && app.page === publicPages.landing) {
+    return <LandingPage heroTotals={app.heroTotals} onLogin={goToLogin} onSignup={() => app.setPage(publicPages.signup)} />;
   }
 
-  if (!app.user && app.page === publicPages.login) {
+  if (isLoggedOut && app.page === publicPages.login) {
     return (
       <AuthPage
         mode="login"
         feedback={app.authFeedback}
         onSubmit={app.handleAuthSubmit}
-        onBack={() => app.setPage(publicPages.landing)}
+        onBack={goToLanding}
         onSwitch={() => { app.setAuthFeedback(""); app.setPage(publicPages.signup); }}
         onForgotPassword={() => { app.setPasswordResetFeedback(""); app.setPage(publicPages.forgotPassword); }}
       />
     );
   }
 
-  if (!app.user && app.page === publicPages.signup) {
+  if (isLoggedOut && app.page === publicPages.signup) {
     return (
       <AuthPage
         mode="signup"
         feedback={app.authFeedback}
         onSubmit={app.handleAuthSubmit}
-        onBack={() => app.setPage(publicPages.landing)}
-        onSwitch={() => { app.setAuthFeedback(""); app.setPage(publicPages.login); }}
+        onBack={goToLanding}
+        onSwitch={() => { app.setAuthFeedback(""); goToLogin(); }}
       />
     );
   }
 
-  if (!app.user && app.page === publicPages.forgotPassword) {
-    return <ForgotPasswordPage feedback={app.passwordResetFeedback} onSubmit={app.handleForgotPasswordSubmit} onBack={() => app.setPage(publicPages.login)} />;
+  if (isLoggedOut && app.page === publicPages.forgotPassword) {
+    return <ForgotPasswordPage feedback={app.passwordResetFeedback} onSubmit={app.handleForgotPasswordSubmit} onBack={goToLogin} />;
   }
 
-  if (!app.user && app.page === publicPages.resetPassword) {
+  if (isLoggedOut && app.page === publicPages.resetPassword) {
     const params = new URLSearchParams(window.location.search);
     return (
       <ResetPasswordPage
@@ -55,8 +59,8 @@ function App() {
         feedback={app.passwordResetFeedback}
         onSubmit={app.handleResetPasswordSubmit}
         onBackToLogin={() => {
-          window.history.replaceState({}, "", window.location.pathname);
-          app.setPage(publicPages.login);
+          clearResetQuery();
+          goToLogin();
         }}
       />
     );

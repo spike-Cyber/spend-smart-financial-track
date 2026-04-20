@@ -65,31 +65,34 @@ MAIL_FROM=your_from_address
 
 If SMTP is not configured, the app falls back to a safe log-only mode instead of failing.
 
-## Deploy on Render
+## Deploy on Vercel
 
-This project is prepared for Render with [render.yaml](C:\Users\Aniket\Downloads\spend smart finacial track\render.yaml).
+This project is prepared for Vercel with [vercel.json](C:\Users\Aniket\Downloads\spend smart finacial track\vercel.json).
 
 Recommended steps:
 
 1. Push this project to GitHub.
-2. In Render, choose `New +` -> `Blueprint`.
-3. Connect your GitHub repository.
-4. Render will detect `render.yaml` automatically.
-5. Add the missing secret values:
+2. In Vercel, choose `Add New...` -> `Project`.
+3. Import your GitHub repository.
+4. Keep the framework preset as `Other`.
+5. Set the build command to:
+
+```bash
+npm run build
+```
+
+6. Add environment variables:
    - `MONGO_URI`
+   - `MONGO_DB_NAME=spend-smart`
+   - `JWT_SECRET`
+   - `SMTP_HOST`
+   - `SMTP_PORT=587`
    - `SMTP_USER`
    - `SMTP_PASS`
    - `MAIL_FROM`
-6. Deploy the blueprint.
+7. Deploy the project.
 
-Build and start commands used:
-
-```bash
-npm install && npm run build
-npm start
-```
-
-Health check:
+Health check after deployment:
 
 ```text
 /api/health
@@ -97,13 +100,18 @@ Health check:
 
 Important:
 
-- Render's local disk is not reliable for long-term app data.
-- If you deploy without `MONGO_URI`, the app can still run, but JSON data may be lost on redeploy or restart.
-- For a proper live deployment, set `MONGO_URI`.
+- On Vercel, `MongoDB` should be used for real data persistence.
+- The local JSON fallback is fine for local development, but serverless deployments have ephemeral storage.
+- The frontend is served from `public/`, and all API requests run through the Vercel serverless function at `api/index.js`.
+
+## Deploy on Render
+
+This project is also prepared for Render with [render.yaml](C:\Users\Aniket\Downloads\spend smart finacial track\render.yaml).
 
 ## Structure
 
-- `server/index.js` - Express server and API routes
+- `server/index.js` - Express app factory and local server entry
+- `api/index.js` - Vercel serverless entrypoint
 - `server/lib/store.js` - storage adapters for MongoDB and JSON
 - `src/client/app.jsx` - React application source
 - `scripts/build-client.js` - bundles the React client with esbuild

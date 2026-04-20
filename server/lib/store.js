@@ -13,6 +13,8 @@ const UserSchema = new mongoose.Schema({
   monthlyGoal: Number,
   theme: { type: String, default: "light" },
   emailNotifications: { type: Boolean, default: true },
+  targetAlerts: { type: Boolean, default: true },
+  overspendingAlerts: { type: Boolean, default: true },
   weeklyDigest: { type: Boolean, default: false },
   compactMode: { type: Boolean, default: false },
   resetTokenHash: String,
@@ -72,6 +74,8 @@ function sanitizeUser(user) {
     monthlyGoal: user.monthlyGoal,
     theme: user.theme || "light",
     emailNotifications: user.emailNotifications !== false,
+    targetAlerts: user.targetAlerts !== false,
+    overspendingAlerts: user.overspendingAlerts !== false,
     weeklyDigest: user.weeklyDigest === true,
     compactMode: user.compactMode === true
   };
@@ -98,6 +102,8 @@ class JsonStore {
       id: makeId(),
       theme: "light",
       emailNotifications: true,
+      targetAlerts: true,
+      overspendingAlerts: true,
       weeklyDigest: false,
       compactMode: false,
       resetTokenHash: null,
@@ -164,6 +170,8 @@ class MongoStore {
       monthlyGoal: plain.monthlyGoal,
       theme: plain.theme || "light",
       emailNotifications: plain.emailNotifications !== false,
+      targetAlerts: plain.targetAlerts !== false,
+      overspendingAlerts: plain.overspendingAlerts !== false,
       weeklyDigest: plain.weeklyDigest === true,
       compactMode: plain.compactMode === true
     };
@@ -197,6 +205,8 @@ class MongoStore {
       id: makeId(),
       theme: "light",
       emailNotifications: true,
+      targetAlerts: true,
+      overspendingAlerts: true,
       weeklyDigest: false,
       compactMode: false,
       resetTokenHash: null,
