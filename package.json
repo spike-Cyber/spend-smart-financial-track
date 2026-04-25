@@ -4,8 +4,14 @@
   "description": "React + Express full-stack finance tracker with optional MongoDB support",
   "main": "server/index.js",
   "scripts": {
-    "build": "node scripts/build-client.js",
-    "start": "node server/index.js"
+    "build": "npm run build:client",
+    "build:client": "node scripts/build-client.js",
+    "start": "npm run start:server",
+    "start:server": "node server/index.js",
+    "test:all": "node scripts/test-project.js",
+    "reset": "node scripts/reset-project.js",
+    "reset:rebuild": "node scripts/reset-project.js --with-build",
+    "reset:restart": "node scripts/reset-and-restart.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
